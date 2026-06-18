@@ -175,7 +175,7 @@ int zmk_widget_layer_roller_init(struct zmk_widget_layer_roller *widget, lv_obj_
     // lv_obj_add_style(widget->obj, &style_roller_sel, LV_PART_SELECTED);
     // lv_obj_set_style_radius(widget->obj, 20, LV_PART_MAIN);
 
-    lv_obj_set_style_anim_time(widget->obj, 100, 0);
+    lv_obj_set_style_anim_time(widget->obj, 150, 0);
 
     sys_slist_append(&widgets, &widget->node);
 
