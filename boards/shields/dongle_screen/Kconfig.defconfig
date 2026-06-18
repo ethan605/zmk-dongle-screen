@@ -15,6 +15,10 @@ config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
     select LV_USE_ANIMATION
     select LV_USE_LINE 
     select LV_FONT_UNSCII_8
+    select LV_USE_ROLLER
+    select LV_USE_DRAW_MASK
+    select LV_USE_BAR
+    select LV_USE_FLEX
     select ZMK_WPM
     imply ZMK_HID_INDICATORS
 
@@ -216,4 +220,13 @@ config DONGLE_SCREEN_SYSTEM_ICON
     help
         The icon to display when the 'LGUI'/'RGUI' is pressed. Can be used to better match the Mod Widget to the underlying system.
         (0: macOS, 1: Linux, 2: Windows)
+
+config DONGLE_SCREEN_LAYER_ROLLER_ALL_CAPS
+    bool "Convert layer names to ALL CAPS in roller"
+    default n
+    depends on DONGLE_SCREEN_LAYER_ACTIVE
+    help
+      If enabled, layer display-names in the roller are uppercased.
+      Useful for short layer names like "BASE", "NAV", "SYM".
+
 endif
