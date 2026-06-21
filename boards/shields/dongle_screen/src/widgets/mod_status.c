@@ -33,6 +33,7 @@ static struct k_timer mod_status_timer;
 int zmk_widget_mod_status_init(struct zmk_widget_mod_status *widget, lv_obj_t *parent)
 {
     widget->obj = lv_obj_create(parent);
+    lv_obj_remove_style_all(widget->obj); /* transparent grouping container (no default bg/padding) */
     lv_obj_set_size(widget->obj, 110, 100);
 
     /* CTRL — top-left */
@@ -59,7 +60,7 @@ int zmk_widget_mod_status_init(struct zmk_widget_mod_status *widget, lv_obj_t *p
 #if CONFIG_DONGLE_SCREEN_SYSTEM_ICON == 1
     lv_label_set_text(widget->mods[3], "󰌽"); /* U+F033D */
 #elif CONFIG_DONGLE_SCREEN_SYSTEM_ICON == 2
-    lv_label_set_text(widget->mods[3], "\xEE\x98\xAA"); /* U+E62A */
+    lv_label_set_text(widget->mods[3], ""); /* U+70F */
 #else
     lv_label_set_text(widget->mods[3], "󰘳"); /* U+F0633 */
 #endif

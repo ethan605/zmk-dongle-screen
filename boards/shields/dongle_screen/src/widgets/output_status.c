@@ -91,6 +91,7 @@ ZMK_SUBSCRIPTION(widget_output_status, zmk_usb_conn_state_changed);
 int zmk_widget_output_status_init(struct zmk_widget_output_status *widget, lv_obj_t *parent)
 {
     widget->obj = lv_obj_create(parent);
+    lv_obj_remove_style_all(widget->obj); /* transparent grouping container (no default bg/padding) */
     lv_obj_set_size(widget->obj, 170, 36);
 
     widget->label = lv_label_create(widget->obj);

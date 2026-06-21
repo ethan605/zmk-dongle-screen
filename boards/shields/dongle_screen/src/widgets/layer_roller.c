@@ -134,7 +134,7 @@ int zmk_widget_layer_roller_init(struct zmk_widget_layer_roller *widget, lv_obj_
 
     static lv_style_t style;
     lv_style_init(&style);
-    lv_style_set_bg_color(&style, lv_color_black());
+    lv_style_set_bg_color(&style, lv_color_hex(SNAZZY_BLACK));
     lv_style_set_text_color(&style, lv_color_white());
     lv_style_set_border_width(&style, 0);
     lv_style_set_pad_all(&style, 0);
