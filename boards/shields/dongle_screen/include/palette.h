@@ -1,7 +1,9 @@
 #pragma once
 
 /* Snazzy color palette (https://github.com/sindresorhus/iterm2-snazzy) */
-#define SNAZZY_BLACK   0x282a36
+/* NOTE: background is forced to pure black instead of Snazzy's #282a36 — the
+ * charcoal reads as a washed slate-blue on this ST7789 TFT (looks better on OLED). */
+#define SNAZZY_BLACK   0x000000
 #define SNAZZY_WHITE   0xeff0eb
 #define SNAZZY_DIM     0x6272a4 /* muted slate for dim roller rows + inactive mods (tunable) */
 #define SNAZZY_RED     0xff5c57
