@@ -13,5 +13,6 @@
 
 /* lowercase hex strings for LVGL recolor markup (#RRGGBB text#) */
 #define SNAZZY_GREEN_STR "5af78e"
+#define SNAZZY_BLUE_STR  "57c7ff"
 #define SNAZZY_DIM_STR   "6272a4"
 #define SNAZZY_WHITE_STR "eff0eb"

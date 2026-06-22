@@ -29,19 +29,32 @@ struct output_status_state
 {
     struct zmk_endpoint_instance selected_endpoint;
     int active_profile_index;
-    bool active_profile_connected;
-    bool active_profile_bonded;
+    bool ble_connected[2];
+    bool ble_bonded[2];
     bool usb_is_hid_ready;
 };
 
 static struct output_status_state get_state(const zmk_event_t *_eh)
 {
-    return (struct output_status_state){
-        .selected_endpoint = zmk_endpoints_selected(),                     // 0 = USB , 1 = BLE
-        .active_profile_index = zmk_ble_active_profile_index(),            // 0-3 BLE profiles
-        .active_profile_connected = zmk_ble_active_profile_is_connected(), // 0 = not connected, 1 = connected
-        .active_profile_bonded = !zmk_ble_active_profile_is_open(),        // 0 = BLE not bonded, 1 = bonded
-        .usb_is_hid_ready = zmk_usb_is_hid_ready()};                       // 0 = not ready, 1 = ready
+    struct output_status_state state = {
+        .selected_endpoint = zmk_endpoints_selected(),          // 0 = USB, 1 = BLE
+        .active_profile_index = zmk_ble_active_profile_index(), // active BLE profile index
+        .usb_is_hid_ready = zmk_usb_is_hid_ready(),            // USB HID ready flag
+    };
+    for (uint8_t i = 0; i < 2; i++) {
+        state.ble_connected[i] = zmk_ble_profile_is_connected(i);
+        state.ble_bonded[i] = !zmk_ble_profile_is_open(i);
+    }
+    return state;
+}
+
+/* Map per-profile pairing/connection state to a color string.
+ * color = pairing state (green=connected, blue=bonded-idle, dim=unpaired);
+ * fill  = selected profile (filled glyph = active selection, outline = not selected). */
+static const char *ble_state_color(bool connected, bool bonded) {
+    if (connected) return SNAZZY_GREEN_STR; // connected
+    if (bonded)    return SNAZZY_BLUE_STR;  // paired but idle
+    return SNAZZY_DIM_STR;                  // unpaired / empty slot
 }
 
 static void set_status_symbol(struct zmk_widget_output_status *widget, struct output_status_state state)
@@ -50,18 +63,18 @@ static void set_status_symbol(struct zmk_widget_output_status *widget, struct ou
     bool ble_selected = (state.selected_endpoint.transport == ZMK_TRANSPORT_BLE);
     int idx = state.active_profile_index;
 
-    /* USB icon U+F0553 */
+    /* USB icon U+F0553: color = selected vs not */
     const char *c_usb = usb_selected ? SNAZZY_GREEN_STR : SNAZZY_DIM_STR;
     const char *usb_g = "\xF3\xB0\x95\x93";
 
-    /* BLE profile 0: filled U+F0CA0 if active, outline U+F0CA1 otherwise */
-    const char *c_b1 = (ble_selected && idx == 0) ? SNAZZY_GREEN_STR : SNAZZY_DIM_STR;
+    /* BLE profile 0: color = pairing state; filled U+F0CA0 if selected, outline U+F0CA1 otherwise */
+    const char *c_b1 = ble_state_color(state.ble_connected[0], state.ble_bonded[0]);
     const char *b1_g = (ble_selected && idx == 0)
                            ? "\xF3\xB0\xB2\xA0"
                            : "\xF3\xB0\xB2\xA1";
 
-    /* BLE profile 1: filled U+F0CA2 if active, outline U+F0CA3 otherwise */
-    const char *c_b2 = (ble_selected && idx == 1) ? SNAZZY_GREEN_STR : SNAZZY_DIM_STR;
+    /* BLE profile 1: color = pairing state; filled U+F0CA2 if selected, outline U+F0CA3 otherwise */
+    const char *c_b2 = ble_state_color(state.ble_connected[1], state.ble_bonded[1]);
     const char *b2_g = (ble_selected && idx == 1)
                            ? "\xF3\xB0\xB2\xA2"
                            : "\xF3\xB0\xB2\xA3";
