@@ -55,9 +55,9 @@ lv_obj_t *zmk_display_status_screen()
      *       │ ┌──────────────┐  ┌───────────┐ │
      *       │ │              │  │           │ │
      *       │ │ layer_roller │  │ mod 2×2   │ │
-     *       │ │   150×150    │  │  110×100  │ │
+     *       │ │   136×150    │  │  110×100  │ │
      *       │ │  LEFT_MID    │  │ RIGHT_MID │ │
-     *       │ │    6, 0      │  │  -8, 0    │ │
+     *       │ │   14, -22    │  │  -14, 0   │ │
      *       │ └──────────────┘  └───────────┘ │
      * y=195 ├─────────────────────────────────┤
      *       │       battery_bar (280×45)       │ BOTTOM_MID 0, 0
@@ -87,7 +87,7 @@ lv_obj_t *zmk_display_status_screen()
     zmk_widget_mod_status_init(&mod_widget, screen);
     lv_obj_set_size(zmk_widget_mod_status_obj(&mod_widget), 110, 100);
     lv_obj_align(zmk_widget_mod_status_obj(&mod_widget),
-                 LV_ALIGN_RIGHT_MID, -8, 0);
+                 LV_ALIGN_RIGHT_MID, -14, 0);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_BATTERY_ACTIVE
