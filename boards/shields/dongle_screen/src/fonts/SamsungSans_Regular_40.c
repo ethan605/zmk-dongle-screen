@@ -4,11 +4,7 @@
  * Opts: --no-compress --no-prefilter --bpp 4 --size 40 --font /Users/thanh/personal/arch-pkgs/fonts/ttf-samsung-sans-nerd/SamsungSansNerdFont-Regular.ttf -r 0xE62A -r 0xF033D -r 0xF0633-0xF0636 --format lvgl --force-fast-kern-format --lv-font-name SamsungSans_Regular_40 -o boards/shields/dongle_screen/src/fonts/SamsungSans_Regular_40.c
  ******************************************************************************/
 
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
-#else
-#include "lvgl/lvgl.h"
-#endif
 
 #ifndef SAMSUNGSANS_REGULAR_40
 #define SAMSUNGSANS_REGULAR_40 1
