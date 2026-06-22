@@ -50,7 +50,7 @@ lv_obj_t *zmk_display_status_screen()
      *
      *  y=0  ┌─────────────────────────────────┐
      *       │                  ┌────────────┐ │ connections (170×36)
-     *  y=42 │                  └────────────┘ │ TOP_RIGHT -8, 6
+     *  y=42 │                  └────────────┘ │ TOP_RIGHT -14, 6
      *  y=45 │                                 │
      *       │ ┌──────────────┐  ┌───────────┐ │
      *       │ │              │  │           │ │
@@ -70,7 +70,7 @@ lv_obj_t *zmk_display_status_screen()
     zmk_widget_output_status_init(&output_status_widget, screen);
     lv_obj_set_size(zmk_widget_output_status_obj(&output_status_widget), 170, 36);
     lv_obj_align(zmk_widget_output_status_obj(&output_status_widget),
-                 LV_ALIGN_TOP_RIGHT, -8, 6);
+                 LV_ALIGN_TOP_RIGHT, -14, 6);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_LAYER_ACTIVE
