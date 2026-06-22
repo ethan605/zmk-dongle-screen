@@ -60,7 +60,7 @@ int zmk_widget_mod_status_init(struct zmk_widget_mod_status *widget, lv_obj_t *p
 #if CONFIG_DONGLE_SCREEN_SYSTEM_ICON == 1
     lv_label_set_text(widget->mods[3], "󰌽"); /* U+F033D */
 #elif CONFIG_DONGLE_SCREEN_SYSTEM_ICON == 2
-    lv_label_set_text(widget->mods[3], ""); /* U+70F */
+    lv_label_set_text(widget->mods[3], ""); /* U+E62A */
 #else
     lv_label_set_text(widget->mods[3], "󰘳"); /* U+F0633 */
 #endif
