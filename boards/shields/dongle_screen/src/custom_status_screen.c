@@ -75,9 +75,12 @@ lv_obj_t *zmk_display_status_screen()
 
 #if CONFIG_DONGLE_SCREEN_LAYER_ACTIVE
     zmk_widget_layer_roller_init(&layer_roller_widget, screen);
-    lv_obj_set_size(zmk_widget_layer_roller_obj(&layer_roller_widget), 150, 150);
+    lv_obj_set_size(zmk_widget_layer_roller_obj(&layer_roller_widget), 136, 150);
+    /* Center vertically in the band from the top edge (y=0) to the battery
+     * bars (y=195): midpoint 97.5 vs screen-mid 120 => y offset -22.
+     * x=14 gives a left margin. */
     lv_obj_align(zmk_widget_layer_roller_obj(&layer_roller_widget),
-                 LV_ALIGN_LEFT_MID, 6, 0);
+                 LV_ALIGN_LEFT_MID, 14, -22);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_MODIFIER_ACTIVE
