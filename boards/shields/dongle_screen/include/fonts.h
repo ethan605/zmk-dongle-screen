@@ -11,3 +11,6 @@ LV_FONT_DECLARE(SamsungSans_Regular_40);
 
 /* Samsung Sans Nerd Font — battery percentage */
 LV_FONT_DECLARE(SamsungSans_Regular_20);
+
+/* Samsung Sans Nerd Font — connections one-liner (ASCII + USB U+F0553, BLE circles U+F0CA0-F0CA3) */
+LV_FONT_DECLARE(SamsungSans_Regular_28);

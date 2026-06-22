@@ -5,6 +5,8 @@
 
 #include "custom_status_screen.h"
 
+#include <palette.h>
+
 #if CONFIG_DONGLE_SCREEN_OUTPUT_ACTIVE
 #include "widgets/output_status.h"
 static struct zmk_widget_output_status output_status_widget;
@@ -35,51 +37,57 @@ lv_obj_t *zmk_display_status_screen()
     lv_obj_t *screen;
 
     screen = lv_obj_create(NULL);
-    lv_obj_set_style_bg_color(screen, lv_color_hex(0x000000), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(screen, lv_color_hex(SNAZZY_BLACK), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(screen, 255, LV_PART_MAIN);
 
     lv_style_init(&global_style);
-    lv_style_set_text_color(&global_style, lv_color_white());
+    lv_style_set_text_color(&global_style, lv_color_hex(SNAZZY_WHITE));
     lv_style_set_text_letter_space(&global_style, 1);
     lv_style_set_text_line_space(&global_style, 1);
     lv_obj_add_style(screen, &global_style, LV_PART_MAIN);
 
     /* --- Layout for 280x240 (landscape: 280px wide, 240px tall) ---
      *
-     *  y=0  ┌─────────────────────────────┐
-     *       │   output_status (top, 35px) │  TOP_MID, y_offset=5
-     *  y=35 ├─────────────────────────────┤
-     *       │                             │
-     *       │   layer_roller (120px)      │  CENTER, y_offset=-35
-     *       │   (3 rows × 40px = 120px)   │   width=240, height=120
-     *       │                             │
-     * y=155 ├─────────────────────────────┤
-     *       │   mod_status (40px)         │  CENTER, y_offset=55
-     * y=195 ├─────────────────────────────┤
-     *       │   battery_bar (45px)        │  BOTTOM_MID, y_offset=0
-     * y=240 └─────────────────────────────┘
+     *  y=0  ┌─────────────────────────────────┐
+     *       │                  ┌────────────┐ │ connections (170×36)
+     *  y=42 │                  └────────────┘ │ TOP_RIGHT -14, 6
+     *  y=45 │                                 │
+     *       │ ┌──────────────┐  ┌───────────┐ │
+     *       │ │              │  │           │ │
+     *       │ │ layer_roller │  │ mod 2×2   │ │
+     *       │ │   136×150    │  │  110×100  │ │
+     *       │ │  LEFT_MID    │  │ RIGHT_MID │ │
+     *       │ │   14, -22    │  │  -14, 0   │ │
+     *       │ └──────────────┘  └───────────┘ │
+     * y=195 ├─────────────────────────────────┤
+     *       │       battery_bar (280×45)       │ BOTTOM_MID 0, 0
+     * y=240 └─────────────────────────────────┘
      *
-     * Fine-tune y_offsets after first on-device flash.
+     * Fine-tune offsets after first on-device flash.
      */
 
 #if CONFIG_DONGLE_SCREEN_OUTPUT_ACTIVE
     zmk_widget_output_status_init(&output_status_widget, screen);
+    lv_obj_set_size(zmk_widget_output_status_obj(&output_status_widget), 170, 36);
     lv_obj_align(zmk_widget_output_status_obj(&output_status_widget),
-                 LV_ALIGN_TOP_MID, 0, 5);
+                 LV_ALIGN_TOP_RIGHT, -14, 6);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_LAYER_ACTIVE
     zmk_widget_layer_roller_init(&layer_roller_widget, screen);
-    lv_obj_set_size(zmk_widget_layer_roller_obj(&layer_roller_widget), 240, 120);
+    lv_obj_set_size(zmk_widget_layer_roller_obj(&layer_roller_widget), 136, 150);
+    /* Center vertically in the band from the top edge (y=0) to the battery
+     * bars (y=195): midpoint 97.5 vs screen-mid 120 => y offset -22.
+     * x=14 gives a left margin. */
     lv_obj_align(zmk_widget_layer_roller_obj(&layer_roller_widget),
-                 LV_ALIGN_CENTER, 0, -35);
+                 LV_ALIGN_LEFT_MID, 14, -22);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_MODIFIER_ACTIVE
     zmk_widget_mod_status_init(&mod_widget, screen);
-    lv_obj_set_size(zmk_widget_mod_status_obj(&mod_widget), 240, 40);
+    lv_obj_set_size(zmk_widget_mod_status_obj(&mod_widget), 110, 100);
     lv_obj_align(zmk_widget_mod_status_obj(&mod_widget),
-                 LV_ALIGN_CENTER, 0, 55);
+                 LV_ALIGN_RIGHT_MID, -14, 0);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_BATTERY_ACTIVE
