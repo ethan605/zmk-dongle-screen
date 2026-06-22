@@ -98,7 +98,7 @@ int zmk_widget_output_status_init(struct zmk_widget_output_status *widget, lv_ob
     lv_label_set_recolor(widget->label, true);
     lv_obj_set_style_text_font(widget->label, &SamsungSans_Regular_28, 0);
     lv_obj_set_style_text_align(widget->label, LV_TEXT_ALIGN_RIGHT, 0);
-    lv_obj_align(widget->label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(widget->label, LV_ALIGN_RIGHT_MID, 0, 0);
 
     sys_slist_append(&widgets, &widget->node);
 
